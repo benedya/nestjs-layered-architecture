@@ -1,0 +1,41 @@
+service: nestjs-layered-architecture
+
+useDotenv: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-jetpack
+  - serverless-offline
+  - serverless-plugin-scripts
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    httpPort: 80
+    noPrependStageInUrl: true
+    reloadHandler: true
+
+# Run migrations after lambda gets deployed
+#  scripts:
+#    hooks:
+#        'deploy:finalize': sls invoke -f migrations
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'local'}
+  environment: ${file(./serverless.env.yml):${opt:stage, self:provider.stage}}
+  timeout: 30 # optional, in seconds, default is 6
+
+package:
+  individually: true
+
+functions:
+  web:
+    handler: src/Lambda/web.handler
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+  migrations:
+    handler: src/Lambda/migrations.handler
