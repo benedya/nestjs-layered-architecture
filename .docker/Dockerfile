@@ -14,4 +14,4 @@ WORKDIR /home/node/app
 
 USER node
 
-CMD [ -d "node_modules" ] && npm i && npm run start:dev
+CMD test -d "node_modules" && npm run start:dev || npm i && npm run start:dev
