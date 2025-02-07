@@ -1,4 +1,4 @@
-import { TYPES } from '../Contract/TypesAssociation';
+import { TYPES } from '../Common/Contract/TypesAssociation';
 import { getDataSourceToken } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { UserRepository } from '../Module/User/Infrastructure/UserRepository';

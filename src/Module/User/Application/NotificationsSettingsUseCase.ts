@@ -1,14 +1,14 @@
 import { UserNotificationsSettings } from './Type/UserNotificationsSettings';
 import { Inject, Injectable } from '@nestjs/common';
-import { TYPES } from '../../../Contract/TypesAssociation';
+import { TYPES } from '../../../Common/Contract/TypesAssociation';
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
-import { ApplicationException } from '../../Shared/Exception/ApplicationException';
+import { ApplicationException } from '../../../Common/Exception/ApplicationException';
 
 @Injectable()
 export class NotificationsSettingsUseCase {
   constructor(
     @Inject(TYPES.UserRepository)
-    private userRepository: UserRepositoryInterface,
+    private readonly userRepository: UserRepositoryInterface,
   ) {}
 
   async getUserNotificationsSettings(

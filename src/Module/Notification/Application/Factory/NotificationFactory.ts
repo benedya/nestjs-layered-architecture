@@ -1,5 +1,5 @@
 import { Notification } from '../../Domain/Entity/Notification';
-import { NotificationType } from '../../Domain/NotificationType';
+import { NotificationType } from '../../Domain/Type/NotificationType';
 import { NotificationPayload } from '../Type/NotificationPayload';
 
 export class NotificationFactory {

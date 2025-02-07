@@ -1,4 +1,4 @@
-import { NotificationType } from '../NotificationType';
+import { NotificationType } from '../Type/NotificationType';
 
 export class Notification {
   uuid: string;

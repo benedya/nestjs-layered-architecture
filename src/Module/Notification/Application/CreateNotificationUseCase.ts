@@ -1,8 +1,8 @@
 import { NotificationPayload } from './Type/NotificationPayload';
 import { UserNotificationsSettingsProviderInterface } from './UserNotificationsSettingsProviderInterface';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { EntityManagerInterface } from '../../../Contract/EntityManagerInterface';
-import { TYPES } from '../../../Contract/TypesAssociation';
+import { EntityManagerInterface } from '../../../Common/Contract/EntityManagerInterface';
+import { TYPES } from '../../../Common/Contract/TypesAssociation';
 import { Notification } from '../Domain/Entity/Notification';
 import { NotificationFactory } from './Factory/NotificationFactory';
 
@@ -11,6 +11,7 @@ export class CreateNotificationUseCase {
   private readonly logger = new Logger(CreateNotificationUseCase.name);
 
   constructor(
+    @Inject(TYPES.UserNotificationsSettingsProvider)
     private readonly userNotificationsSettingsProvider: UserNotificationsSettingsProviderInterface,
     @Inject(TYPES.EntityManager)
     private readonly entityManager: EntityManagerInterface,

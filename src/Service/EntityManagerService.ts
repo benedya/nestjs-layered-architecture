@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { EntityManagerInterface } from '../Contract/EntityManagerInterface';
+import { EntityManagerInterface } from '../Common/Contract/EntityManagerInterface';
 
 export class EntityManagerService implements EntityManagerInterface {
   constructor(private readonly dataSource: DataSource) {}

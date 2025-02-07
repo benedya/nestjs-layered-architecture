@@ -1,4 +1,4 @@
-import { NotificationType } from '../../Domain/NotificationType';
+import { NotificationType } from '../../Domain/Type/NotificationType';
 
 // todo better name
 export interface NotificationPayload {
