@@ -19,4 +19,12 @@ export class UserRepository
       },
     });
   }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.findOne({
+      where: {
+        email,
+      },
+    });
+  }
 }

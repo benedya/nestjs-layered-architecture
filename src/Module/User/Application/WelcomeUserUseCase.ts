@@ -1,6 +1,6 @@
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
 import { Inject, Injectable } from '@nestjs/common';
-import { TYPES } from '../../../Constant/TypesAssociation';
+import { TYPES } from '../../../Contract/TypesAssociation';
 import { WelcomeUserDTO } from './Type/WelcomeUserDTO';
 
 @Injectable()

@@ -26,7 +26,10 @@ export class UserController {
 
   @Post('')
   async create(@Body() payload: NewUserPayload): Promise<{ uuid: string }> {
-    const result = await this.createUserUseCase.create(payload.name);
+    const result = await this.createUserUseCase.create(
+      payload.name,
+      payload.email,
+    );
 
     return {
       uuid: result.uuid,

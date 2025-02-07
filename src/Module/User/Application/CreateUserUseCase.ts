@@ -1,30 +1,39 @@
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
 import { User } from '../Domain/Entity/User';
-import { Inject, Injectable } from '@nestjs/common';
-import { TYPES } from '../../../Constant/TypesAssociation';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { TYPES } from '../../../Contract/TypesAssociation';
 import { ApplicationException } from '../../Shared/Exception/ApplicationException';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class CreateUserUseCase {
-  private userRepository: UserRepositoryInterface;
+  private readonly logger = new Logger(CreateUserUseCase.name);
 
   constructor(
-    @Inject(TYPES.UserRepository) userRepository: UserRepositoryInterface,
+    @Inject(TYPES.UserRepository)
+    private readonly userRepository: UserRepositoryInterface,
   ) {
     this.userRepository = userRepository;
   }
 
-  async create(name: string): Promise<{ uuid: string }> {
-    const existingUser = await this.userRepository.findByUuid(name);
+  async create(name: string, email: string): Promise<{ uuid: string }> {
+    const existingUser = await this.userRepository.findByEmail(email);
 
     if (existingUser) {
       throw new ApplicationException(
-        `User with name "${name}" already exists.`,
+        `User with email "${email}" already exists.`,
       );
     }
 
-    const user = new User(name);
+    const user = new User();
 
+    user.uuid = randomUUID();
+    user.name = name;
+    user.email = email;
+
+    this.logger.log(`Creating user with uuid: ${user.uuid}`);
+
+    // todo use entity manager
     await this.userRepository.save(user);
 
     return { uuid: user.uuid };

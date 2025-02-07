@@ -1,11 +1,10 @@
-import { randomUUID } from 'crypto';
-
 export class User {
-  readonly uuid: string;
-  readonly name: string;
-  constructor(name: string) {
-    this.name = name;
+  uuid: string;
 
-    this.uuid = randomUUID();
-  }
+  name: string;
+
+  // todo add to schema
+  email: string; // todo add uniqu
+
+  emailNotificationsEnabled: boolean = true;
 }
