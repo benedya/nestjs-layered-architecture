@@ -1,7 +1,7 @@
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
 import { Inject, Injectable } from '@nestjs/common';
 import { TYPES } from '../../../Common/Contract/TypesAssociation';
-import { WelcomeUserDTO } from './Type/WelcomeUserDTO';
+import { WelcomeUser } from './Type/WelcomeUser';
 
 @Injectable()
 export class WelcomeUserUseCase {
@@ -10,7 +10,7 @@ export class WelcomeUserUseCase {
     private readonly userRepository: UserRepositoryInterface,
   ) {}
 
-  async welcome(name: string): Promise<WelcomeUserDTO | undefined> {
+  async welcome(name: string): Promise<WelcomeUser | undefined> {
     const user = await this.userRepository.findByUuid(name);
 
     if (!user) {

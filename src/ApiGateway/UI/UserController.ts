@@ -10,18 +10,22 @@ import {
 import { WelcomeUserUseCase } from '../../Module/User/Application/WelcomeUserUseCase';
 import { NewUserPayload } from './Type/NewUserPayload';
 import { CreateUserUseCase } from '../../Module/User/Application/CreateUserUseCase';
+import { User } from './Type/User';
+import { ListUsersUseCase } from '../../Module/User/Application/ListUsersUseCase';
 
 @Controller('/api/users')
 export class UserController {
-  private welcomeUserUseCase: WelcomeUserUseCase;
-  private createUserUseCase: CreateUserUseCase;
-
   constructor(
-    welcomeUserUseCase: WelcomeUserUseCase,
-    createUserUseCase: CreateUserUseCase,
-  ) {
-    this.welcomeUserUseCase = welcomeUserUseCase;
-    this.createUserUseCase = createUserUseCase;
+    private readonly welcomeUserUseCase: WelcomeUserUseCase,
+    private readonly createUserUseCase: CreateUserUseCase,
+    private readonly listUsersUseCase: ListUsersUseCase,
+  ) {}
+
+  @Get('')
+  async list(): Promise<User[]> {
+    const users = await this.listUsersUseCase.getAllUsers();
+
+    return users.map((user) => ({ ...user }));
   }
 
   @Post('')

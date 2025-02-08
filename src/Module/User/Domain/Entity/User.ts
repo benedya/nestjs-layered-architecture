@@ -7,4 +7,6 @@ export class User {
   email: string; // todo add uniqu
 
   emailNotificationsEnabled: boolean = true;
+
+  createdAt: Date;
 }

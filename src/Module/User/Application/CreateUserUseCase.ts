@@ -30,6 +30,7 @@ export class CreateUserUseCase {
     user.uuid = randomUUID();
     user.name = name;
     user.email = email;
+    user.createdAt = new Date();
 
     this.logger.log(`Creating user with uuid: ${user.uuid}`);
 

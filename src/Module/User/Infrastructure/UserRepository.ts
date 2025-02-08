@@ -27,4 +27,8 @@ export class UserRepository
       },
     });
   }
+
+  async findAll(): Promise<User[]> {
+    return this.find();
+  }
 }
