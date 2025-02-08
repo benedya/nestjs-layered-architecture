@@ -1,6 +1,7 @@
 import { Notification } from '../../Domain/Entity/Notification';
 import { NotificationType } from '../../Domain/Type/NotificationType';
 import { NotificationPayload } from '../Type/NotificationPayload';
+import { randomUUID } from 'crypto';
 
 export class NotificationFactory {
   public static createEmailNotification(
@@ -18,6 +19,7 @@ export class NotificationFactory {
   ): Notification {
     const notification = new Notification();
 
+    notification.uuid = randomUUID();
     notification.userUuid = payload.userUuid;
     notification.message = payload.message;
     notification.createdAt = new Date();

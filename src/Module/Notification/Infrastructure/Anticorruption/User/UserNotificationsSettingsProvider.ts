@@ -1,7 +1,9 @@
 import { UserNotificationsSettingsProviderInterface } from '../../../Application/UserNotificationsSettingsProviderInterface';
 import { NotificationsSettings } from '../../../Application/Type/NotificationsSettings';
 import { NotificationsSettingsUseCase } from '../../../../User/Application/NotificationsSettingsUseCase';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserNotificationsSettingsProvider
   implements UserNotificationsSettingsProviderInterface
 {

@@ -10,4 +10,8 @@ export class Notification {
   type: NotificationType;
 
   createdAt: Date;
+
+  sentAt: Date | null = null;
+
+  sendingError: string | null = null;
 }

@@ -3,8 +3,7 @@ export class User {
 
   name: string;
 
-  // todo add to schema
-  email: string; // todo add uniqu
+  email: string;
 
   emailNotificationsEnabled: boolean = true;
 

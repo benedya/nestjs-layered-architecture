@@ -7,6 +7,7 @@ import { randomUUID } from 'crypto';
 import { UserMapper } from './Mapper/UserMapper';
 import { EntityManagerInterface } from '../../../Common/Contract/EntityManagerInterface';
 import { UserFull } from './Type/UserFull';
+import { NotificationSenderInterface } from '../../../Common/Contract/NotificationSenderInterface';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -17,6 +18,8 @@ export class CreateUserUseCase {
     private readonly userRepository: UserRepositoryInterface,
     @Inject(TYPES.EntityManager)
     private readonly entityManager: EntityManagerInterface,
+    @Inject(TYPES.NotificationSender)
+    private readonly notificationSender: NotificationSenderInterface,
   ) {}
 
   async create(name: string, email: string): Promise<UserFull> {
@@ -38,6 +41,12 @@ export class CreateUserUseCase {
     this.logger.log(`Creating user with uuid: ${user.uuid}`);
 
     await this.entityManager.transaction(user);
+
+    await this.notificationSender.sendEmailNotification(
+      user.uuid,
+      'Welcome!',
+      `Welcome, ${user.name}!`,
+    );
 
     return UserMapper.toFull(user);
   }

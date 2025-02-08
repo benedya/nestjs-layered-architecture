@@ -4,4 +4,5 @@ export const TYPES = {
   UserNotificationsSettingsProvider: Symbol.for(
     'UserNotificationsSettingsProviderInterface',
   ),
+  NotificationSender: Symbol.for('NotificationSenderInterface'),
 };
