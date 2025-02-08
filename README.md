@@ -30,16 +30,21 @@ make up
 ```
 4. Create & run migrations:
 ```bash
-make gsm name=Init
+# create migration based on the schema changes
+make gsm
+
+# apply migration to the database
 make m
 ```
-5. Your NestJS application is now running locally. You can access it at http://localhost:3001.
+5. Your NestJS application is now running locally. You can access it at http://localhost:3001/api/users.
+Controllers you can find in the [src/ApiGateway/UI](src/ApiGateway/UI) directory.
 
 ## Project Structure
 The project is structured as follows:
 ```
 ├─ src/
 │   ├── ApiGateway
+│   ├── Common
 │   ├── Constant
 │   ├── Database
 │   ├── Helper
@@ -49,6 +54,8 @@ The project is structured as follows:
 ```
 
 - `ApiGateway`: This directory contains the API endpoints for your NestJS application.
+
+- `Common`: The `Common` directory holds shared code that can be used in modules.
 
 - `Constants`: Here, you store constant values and configurations used throughout the application.
 
@@ -61,6 +68,21 @@ The project is structured as follows:
 - `Module`: The `Module` directory is where the heart of your application resides. It follows the [layered architecture](https://github.com/benedya/nodejs-layered-architecture) pattern to keep the codebase organized:
 
 - `app.module.ts`: The main NestJS application module where you import and configure all your feature modules.
+
+## Anticorruption
+To prevent uncontrolled dependencies between modules there we can use `Anticorruption` layer. 
+
+The main ideas are the next:
+- Interaction between modules should be isolated in `Anticorruption` layer.
+- The `Anticorruption` layer is placed in the `Infrastructure` layer.
+  - Because such interaction is treated as an interaction with outer layer. 
+- If in an inner layer (`Application`, `Domain`) we need to use some functionality from another module, then:
+  - Create an interface in the inner layer and use it there.
+  - Create an implementation of the interface in the `Anticorruption` layer.
+  - In that implementation, use the functionality from the outer module.
+
+Example of the `Anticorruption` layer you can find in the [src/Module/Notification/Infrastructure/Anticorruption/User](src/Module/Notification/Infrastructure/Anticorruption/User) directory.
+There we have interaction between the `Notification` module and the `User` module.
 
 ## Contributing
 Contributions are warmly encouraged to enhance and extend this template. If you have any ideas, bug fixes, or enhancements, please feel free to open an issue or submit a pull request.

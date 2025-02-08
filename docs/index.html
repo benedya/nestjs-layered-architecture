@@ -6,68 +6,115 @@
     <meta name="google-site-verification" content="aKtuo5Mb5A07_qjM1SNYTV6vDBmB3oHwtUxqawFWcBA" />
 </head>
 <body>
-<h1 id="-nestjs-layered-clean-architecture-typeorm-serverless-https-github-com-benedya-nestjs-layered-architecture-"><a href="https://github.com/benedya/nestjs-layered-architecture">NestJS + Layered (Clean) Architecture + TypeORM + Serverless</a></h1>
+<h1><a href="https://github.com/benedya/nestjs-layered-architecture">NestJS + Layered (Clean) Architecture + TypeORM + Serverless</a></h1>
 <p>This is a project template for building NestJS applications with layered architecture (Clean), utilizing TypeORM for database access, and designed for serverless deployment. This template is a starting point for your serverless NestJS projects.</p>
-<h2 id="features">Features</h2>
+<h2>Features</h2>
 <ul>
-  <li><p><strong><a href="https://nestjs.com/">NestJS Framework</a></strong>: A progressive Node.js framework for building efficient, reliable, and scalable serverless applications.</p>
+  <li>
+    <p><strong><a href="https://nestjs.com/">NestJS Framework</a></strong>: A progressive Node.js framework for building efficient, reliable, and scalable serverless applications.</p>
   </li>
-  <li><p><strong><a href="https://github.com/benedya/nodejs-layered-architecture">Layered (Clean) Architecture</a></strong>: The project follows the Clean architecture pattern that separates concerns by dividing the application into concentric layers, with each layer having its responsibilities and dependencies</p>
+  <li>
+    <p><strong><a href="https://github.com/benedya/nodejs-layered-architecture">Layered (Clean) Architecture</a></strong>: The project follows the Clean architecture pattern that separates concerns by dividing the application into concentric layers, with each layer having its responsibilities and dependencies</p>
   </li>
-  <li><p><strong><a href="https://typeorm.io/">TypeORM</a></strong>: Integrated with TypeORM for easy database interaction, allowing you to use various database systems like MySQL, PostgreSQL, MongoDB, etc.</p>
+  <li>
+    <p><strong><a href="https://typeorm.io/">TypeORM</a></strong>: Integrated with TypeORM for easy database interaction, allowing you to use various database systems like MySQL, PostgreSQL, MongoDB, etc.</p>
   </li>
-  <li><p><strong><a href="https://www.serverless.com/">Serverless Deployment</a></strong>: Designed to be deployed on serverless platforms like AWS Lambda, Azure Functions, or Google Cloud Functions.</p>
+  <li>
+    <p><strong><a href="https://www.serverless.com/">Serverless Deployment</a></strong>: Designed to be deployed on serverless platforms like AWS Lambda, Azure Functions, or Google Cloud Functions.</p>
   </li>
 </ul>
-<h2 id="getting-started">Getting Started</h2>
+<h2>Getting Started</h2>
 <ol>
   <li>Clone this repository to your local machine:</li>
 </ol>
-<pre><code class="lang-bash">   git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/benedya/nestjs-layered-architecture.git
+<pre><code class="language-bash">   git clone https://github.com/benedya/nestjs-layered-architecture.git
 </code></pre>
-<ol>
-  <li>Configure your environment variables by creating a <code>.env</code> file and populating it with your database connection details and other configuration:<pre><code class="lang-bash"><span class="hljs-selector-tag">cd</span> <span class="hljs-selector-tag">nestjs-layered-architecture</span>
-<span class="hljs-selector-tag">cp</span> <span class="hljs-selector-class">.env</span><span class="hljs-selector-class">.example</span> <span class="hljs-selector-class">.env</span>
-</code></pre>
-  </li>
-  <li>Run services:<pre><code class="lang-bash"><span class="hljs-keyword">make</span> <span class="hljs-keyword">up</span>
-</code></pre>
-  </li>
-  <li>Create &amp; run migrations:<pre><code class="lang-bash"><span class="hljs-built_in">make</span> gsm name=Init
-<span class="hljs-built_in">make</span> m
-</code></pre>
-  </li>
-  <li>Your NestJS application is now running locally. You can access it at <a href="http://localhost:3001">http://localhost:3001</a>.</li>
+<ol start="2">
+  <li>Configure your environment variables by creating a <code>.env</code> file and populating it with your database connection details and other configuration:</li>
 </ol>
-<h2 id="project-structure">Project Structure</h2>
+<pre><code class="language-bash">cd nestjs-layered-architecture
+cp .env.example .env
+</code></pre>
+<ol start="3">
+  <li>Run services:</li>
+</ol>
+<pre><code class="language-bash">make up
+</code></pre>
+<ol start="4">
+  <li>Create &amp; run migrations:</li>
+</ol>
+<pre><code class="language-bash">
+# create migration based on the schema changes
+make gsm
+
+# apply migration to the database
+make m
+</code></pre>
+<ol start="5">
+  <li>Your NestJS application is now running locally. You can access it at <a href="http://localhost:3001/api/users">http://localhost:3001/api/users</a>.
+    Controllers you can find in the <a href="src/ApiGateway/UI">src/ApiGateway/UI</a> directory.</li>
+</ol>
+<h2>Project Structure</h2>
 <p>The project is structured as follows:</p>
 <pre><code>├─ src/
 │   ├── ApiGateway
+│   ├── Common
 │   ├── Constant
 │   ├── Database
 │   ├── Helper
 │   ├── Lambda
 │   ├── Module
-│   └── app<span class="hljs-selector-class">.module</span><span class="hljs-selector-class">.ts</span>
-</code></pre><ul>
-  <li><p><code>ApiGateway</code>: This directory contains the API endpoints for your NestJS application.</p>
+│   └── app.module.ts
+</code></pre>
+<ul>
+  <li>
+    <p><code>ApiGateway</code>: This directory contains the API endpoints for your NestJS application.</p>
   </li>
-  <li><p><code>Constants</code>: Here, you store constant values and configurations used throughout the application.</p>
+  <li>
+    <p><code>Common</code>: The <code>Common</code> directory holds shared code that can be used in modules.</p>
   </li>
-  <li><p><code>Database</code>: The database directory holds configurations related to database connectivity and setup.</p>
+  <li>
+    <p><code>Constants</code>: Here, you store constant values and configurations used throughout the application.</p>
   </li>
-  <li><p><code>Helper</code>: This directory is meant for utility functions and helper classes that can be used across the application.</p>
+  <li>
+    <p><code>Database</code>: The database directory holds configurations related to database connectivity and setup.</p>
   </li>
-  <li><p><code>Lambda</code>: In this directory, you configure and manage your serverless AWS Lambda functions if you are deploying your application serverlessly on AWS.</p>
+  <li>
+    <p><code>Helper</code>: This directory is meant for utility functions and helper classes that can be used across the application.</p>
   </li>
-  <li><p><code>Module</code>: The <code>Module</code> directory is where the heart of your application resides. It follows the <a href="https://github.com/benedya/nodejs-layered-architecture">layered architecture</a> pattern to keep the codebase organized:</p>
+  <li>
+    <p><code>Lambda</code>: In this directory, you configure and manage your serverless AWS Lambda functions if you are deploying your application serverlessly on AWS.</p>
   </li>
-  <li><p><code>app.module.ts</code>: The main NestJS application module where you import and configure all your feature modules.</p>
+  <li>
+    <p><code>Module</code>: The <code>Module</code> directory is where the heart of your application resides. It follows the <a href="https://github.com/benedya/nodejs-layered-architecture">layered architecture</a> pattern to keep the codebase organized:</p>
+  </li>
+  <li>
+    <p><code>app.module.ts</code>: The main NestJS application module where you import and configure all your feature modules.</p>
   </li>
 </ul>
-<h2 id="contributing">Contributing</h2>
+<h2>Anticorruption</h2>
+<p>To prevent uncontrolled dependencies between modules there we can use <code>Anticorruption</code> layer.</p>
+<p>The main ideas are the next:</p>
+<ul>
+  <li>Interaction between modules should be isolated in <code>Anticorruption</code> layer.</li>
+  <li>The <code>Anticorruption</code> layer is placed in the <code>Infrastructure</code> layer.
+    <ul>
+      <li>Because such interaction is treated as an interaction with outer layer.</li>
+    </ul>
+  </li>
+  <li>If in an inner layer (<code>Application</code>, <code>Domain</code>) we need to use some functionality from another module, then:
+    <ul>
+      <li>Create an interface in the inner layer and use it there.</li>
+      <li>Create an implementation of the interface in the <code>Anticorruption</code> layer.</li>
+      <li>In that implementation, use the functionality from the outer module.</li>
+    </ul>
+  </li>
+</ul>
+<p>Example of the <code>Anticorruption</code> layer you can find in the <a href="src/Module/Notification/Infrastructure/Anticorruption/User">src/Module/Notification/Infrastructure/Anticorruption/User</a> directory.
+  There we have interaction between the <code>Notification</code> module and the <code>User</code> module.</p>
+<h2>Contributing</h2>
 <p>Contributions are warmly encouraged to enhance and extend this template. If you have any ideas, bug fixes, or enhancements, please feel free to open an issue or submit a pull request.</p>
-<hr>
-<p>Hopefully this example helps you build robust and scalable applications using the power of Clean Architecture. Happy coding! If you have any questions or need assistance, please don&#39;t hesitate to reach out.</p>
+<hr />
+<p>Hopefully this example helps you build robust and scalable applications using the power of Clean Architecture. Happy coding! If you have any questions or need assistance, please don't hesitate to reach out.</p>
 </body>
 </html>
