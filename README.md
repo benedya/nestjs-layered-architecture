@@ -28,12 +28,8 @@ cp .env.example .env
 ```bash
 make up
 ```
-4. Create & run migrations:
+4. Run migrations:
 ```bash
-# create migration based on the schema changes
-make gsm
-
-# apply migration to the database
 make m
 ```
 5. Your NestJS application is now running locally. You can access it at http://localhost:3001/api/users.
