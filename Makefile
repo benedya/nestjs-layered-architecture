@@ -42,3 +42,6 @@ run-migrations: ## [m] Run migrations
 	@printf "${COLOR_WARNING}Running migrations...${COLOR_OFF}\n"
 	$(CMD_WEB_SERVICE) npm run typeorm:ts migration:run
 m: run-migrations
+
+test-e2e:
+	$(CMD_WEB_SERVICE) npm run test:e2e

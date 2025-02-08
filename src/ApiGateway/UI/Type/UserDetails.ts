@@ -1,4 +1,4 @@
-export interface UserList {
+export interface UserDetails {
   uuid: string;
   name: string;
   email: string;

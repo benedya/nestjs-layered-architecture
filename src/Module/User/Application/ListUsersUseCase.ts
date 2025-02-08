@@ -1,7 +1,7 @@
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
 import { Inject, Injectable } from '@nestjs/common';
 import { TYPES } from '../../../Common/Contract/TypesAssociation';
-import { UserList } from './Type/UserList';
+import { UserShort } from './Type/UserShort';
 
 @Injectable()
 export class ListUsersUseCase {
@@ -12,7 +12,7 @@ export class ListUsersUseCase {
     this.userRepository = userRepository;
   }
 
-  async getAllUsers(): Promise<UserList[]> {
+  async getAllUsers(): Promise<UserShort[]> {
     const users = await this.userRepository.findAll();
 
     return users.map((user) => ({

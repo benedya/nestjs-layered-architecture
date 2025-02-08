@@ -1,24 +1,23 @@
 import { UserRepositoryInterface } from '../Domain/Repository/UserRepositoryInterface';
 import { Inject, Injectable } from '@nestjs/common';
 import { TYPES } from '../../../Common/Contract/TypesAssociation';
-import { WelcomeUser } from './Type/WelcomeUser';
+import { UserFull } from './Type/UserFull';
+import { UserMapper } from './Mapper/UserMapper';
 
 @Injectable()
-export class WelcomeUserUseCase {
+export class GetUserUseCase {
   constructor(
     @Inject(TYPES.UserRepository)
     private readonly userRepository: UserRepositoryInterface,
   ) {}
 
-  async welcome(name: string): Promise<WelcomeUser | undefined> {
-    const user = await this.userRepository.findByUuid(name);
+  async findUserByUuid(uuid: string): Promise<UserFull | undefined> {
+    const user = await this.userRepository.findByUuid(uuid);
 
     if (!user) {
       return;
     }
 
-    return {
-      message: `Hello ${user.name}`,
-    };
+    return UserMapper.toFull(user);
   }
 }

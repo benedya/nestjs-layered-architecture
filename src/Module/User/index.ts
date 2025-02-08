@@ -1,11 +1,11 @@
 import { NotificationsSettingsUseCase } from './Application/NotificationsSettingsUseCase';
 import { CreateUserUseCase } from './Application/CreateUserUseCase';
-import { WelcomeUserUseCase } from './Application/WelcomeUserUseCase';
+import { GetUserUseCase } from './Application/GetUserUseCase';
 import { ListUsersUseCase } from './Application/ListUsersUseCase';
 
 export const SERVICES = [
   NotificationsSettingsUseCase,
   CreateUserUseCase,
-  WelcomeUserUseCase,
+  GetUserUseCase,
   ListUsersUseCase,
 ] as const;

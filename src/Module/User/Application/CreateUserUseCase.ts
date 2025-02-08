@@ -4,6 +4,9 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { TYPES } from '../../../Common/Contract/TypesAssociation';
 import { ApplicationException } from '../../../Common/Exception/ApplicationException';
 import { randomUUID } from 'crypto';
+import { UserMapper } from './Mapper/UserMapper';
+import { EntityManagerInterface } from '../../../Common/Contract/EntityManagerInterface';
+import { UserFull } from './Type/UserFull';
 
 @Injectable()
 export class CreateUserUseCase {
@@ -12,11 +15,11 @@ export class CreateUserUseCase {
   constructor(
     @Inject(TYPES.UserRepository)
     private readonly userRepository: UserRepositoryInterface,
-  ) {
-    this.userRepository = userRepository;
-  }
+    @Inject(TYPES.EntityManager)
+    private readonly entityManager: EntityManagerInterface,
+  ) {}
 
-  async create(name: string, email: string): Promise<{ uuid: string }> {
+  async create(name: string, email: string): Promise<UserFull> {
     const existingUser = await this.userRepository.findByEmail(email);
 
     if (existingUser) {
@@ -34,9 +37,8 @@ export class CreateUserUseCase {
 
     this.logger.log(`Creating user with uuid: ${user.uuid}`);
 
-    // todo use entity manager
-    await this.userRepository.save(user);
+    await this.entityManager.transaction(user);
 
-    return { uuid: user.uuid };
+    return UserMapper.toFull(user);
   }
 }
