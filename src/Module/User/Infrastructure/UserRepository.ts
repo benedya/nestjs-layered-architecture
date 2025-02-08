@@ -19,4 +19,16 @@ export class UserRepository
       },
     });
   }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.findOne({
+      where: {
+        email,
+      },
+    });
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.find();
+  }
 }

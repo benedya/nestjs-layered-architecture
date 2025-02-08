@@ -7,42 +7,46 @@ import {
   Post,
   Body,
 } from '@nestjs/common';
-import { WelcomeUserUseCase } from '../../Module/User/Application/WelcomeUserUseCase';
+import { GetUserUseCase } from '../../Module/User/Application/GetUserUseCase';
 import { NewUserPayload } from './Type/NewUserPayload';
 import { CreateUserUseCase } from '../../Module/User/Application/CreateUserUseCase';
+import { UserDetails } from './Type/UserDetails';
+import { ListUsersUseCase } from '../../Module/User/Application/ListUsersUseCase';
+import { UserMapper } from './Mapper/UserMapper';
 
 @Controller('/api/users')
 export class UserController {
-  private welcomeUserUseCase: WelcomeUserUseCase;
-  private createUserUseCase: CreateUserUseCase;
-
   constructor(
-    welcomeUserUseCase: WelcomeUserUseCase,
-    createUserUseCase: CreateUserUseCase,
-  ) {
-    this.welcomeUserUseCase = welcomeUserUseCase;
-    this.createUserUseCase = createUserUseCase;
+    private readonly welcomeUserUseCase: GetUserUseCase,
+    private readonly createUserUseCase: CreateUserUseCase,
+    private readonly listUsersUseCase: ListUsersUseCase,
+  ) {}
+
+  @Get('')
+  async list(): Promise<UserDetails[]> {
+    const users = await this.listUsersUseCase.getAllUsers();
+
+    return users.map((user) => ({ ...user }));
   }
 
   @Post('')
-  async create(@Body() payload: NewUserPayload): Promise<{ uuid: string }> {
-    const result = await this.createUserUseCase.create(payload.name);
+  async create(@Body() payload: NewUserPayload): Promise<UserDetails> {
+    const createdUser = await this.createUserUseCase.create(
+      payload.name,
+      payload.email,
+    );
 
-    return {
-      uuid: result.uuid,
-    };
+    return UserMapper.toUserDetails(createdUser);
   }
 
   @Get('/:uuid')
-  async get(@Param('uuid') uuid: string): Promise<{ welcomeMessage: string }> {
-    const welcome = await this.welcomeUserUseCase.welcome(uuid);
+  async get(@Param('uuid') uuid: string): Promise<UserDetails> {
+    const user = await this.welcomeUserUseCase.findUserByUuid(uuid);
 
-    if (!welcome) {
+    if (!user) {
       throw new HttpException('Not found.', HttpStatus.NOT_FOUND);
     }
 
-    return {
-      welcomeMessage: welcome.message,
-    };
+    return UserMapper.toUserDetails(user);
   }
 }
