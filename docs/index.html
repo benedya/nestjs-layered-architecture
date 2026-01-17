@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NestJS + Layered Architecture + TypeORM</title>
+    <meta name="google-site-verification" content="aKtuo5Mb5A07_qjM1SNYTV6vDBmB3oHwtUxqawFWcBA" />
+</head>
+<body>
+<h1 id="-nestjs-layered-clean-architecture-typeorm-https-github-com-benedya-nestjs-layered-architecture-"><a href="https://github.com/benedya/nestjs-layered-architecture">NestJS + Layered (Clean) Architecture + TypeORM</a></h1>
+<p>This is a project template for building NestJS applications with layered architecture (Clean), utilizing TypeORM for database access. This template is a starting point for your NestJS projects.</p>
+<h2 id="features">Features</h2>
+<ul>
+  <li><p><strong><a href="https://nestjs.com/">NestJS Framework</a></strong>: A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.</p>
+  </li>
+  <li><p><strong><a href="https://github.com/benedya/nodejs-layered-architecture">Layered (Clean) Architecture</a></strong>: The project follows the Clean architecture pattern that separates concerns by dividing the application into concentric layers, with each layer having its responsibilities and dependencies</p>
+  </li>
+  <li><p><strong><a href="https://typeorm.io/">TypeORM</a></strong>: Integrated with TypeORM for easy database interaction, allowing you to use various database systems like MySQL, PostgreSQL, MongoDB, etc.</p>
+  </li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+  <li>Clone this repository to your local machine:</li>
+</ol>
+<pre><code class="lang-bash">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/benedya/nestjs-layered-architecture.git
+</code></pre>
+<ol start="2">
+  <li>Configure your environment variables by creating a <code>.env</code> file and populating it with your database connection details and other configuration:</li>
+</ol>
+<pre><code class="lang-bash"><span class="hljs-selector-tag">cd</span> <span class="hljs-selector-tag">nestjs-layered-architecture</span>
+<span class="hljs-selector-tag">cp</span> <span class="hljs-selector-class">.env</span><span class="hljs-selector-class">.example</span> <span class="hljs-selector-class">.env</span>
+</code></pre>
+<ol start="3">
+  <li>Build services:</li>
+</ol>
+<pre><code class="lang-bash">docker compose build
+</code></pre>
+<ol start="4">
+  <li>Run services:</li>
+</ol>
+<pre><code class="lang-bash">docker compose up
+</code></pre>
+<ol start="5">
+  <li>Your NestJS application is now running locally. You can access it at <a href="http://localhost:3001">http://localhost:3001</a>.
+    Controllers you can find in the <a href="https://github.com/benedya/nestjs-layered-architecture/tree/main/src/ApiGateway">src/ApiGateway</a> directory.
+  </li>
+</ol>
+<h2 id="project-structure">Project Structure</h2>
+<p>The project is structured as follows:</p>
+<pre><code>├─ src/
+│   ├── ApiGateway
+│   ├── Common
+│   ├── Constant
+│   ├── Database
+│   ├── Helper
+│   ├── Module
+│   ├── Provider
+│   ├── Service
+│   ├── app.module.ts
+│   └── main.ts
+</code></pre>
+<ul>
+  <li><p><code>ApiGateway</code>: This directory contains the API endpoints for your NestJS application.</p></li>
+  <li><p><code>Common</code>: The <code>Common</code> directory holds shared code that can be used in modules.</p></li>
+  <li><p><code>Constants</code>: Here, you store constant values and configurations used throughout the application.</p></li>
+  <li><p><code>Database</code>: The database directory holds configurations related to database connectivity and setup.</p></li>
+  <li><p><code>Helper</code>: This directory is meant for utility functions and helper classes that can be used across the application.</p></li>
+  <li><p><code>Module</code>: The <code>Module</code> directory is where the heart of your application resides. It follows the <a href="https://github.com/benedya/nodejs-layered-architecture">layered architecture</a> pattern to keep the codebase organized.</p></li>
+  <li><p><code>Provider</code>: Contains provider factories for dependency injection.</p></li>
+  <li><p><code>Service</code>: Contains infrastructure services.</p></li>
+  <li><p><code>app.module.ts</code>: The main NestJS application module where you import and configure all your feature modules.</p></li>
+  <li><p><code>main.ts</code>: The entry point of the application that bootstraps the NestJS server.</p></li>
+</ul>
+<h3>Anticorruption</h3>
+<p>To prevent uncontrolled dependencies between modules there we can use <code>Anticorruption</code> layer.</p>
+<p>The main ideas are the next:</p>
+<ul>
+  <li>Interaction between modules should be isolated in <code>Anticorruption</code> layer.</li>
+  <li>The <code>Anticorruption</code> layer is placed in the <code>Infrastructure</code> layer.
+    <ul>
+      <li>Because such interaction is treated as an interaction with outer layer.</li>
+    </ul>
+  </li>
+  <li>If in an inner layer (<code>Application</code>, <code>Domain</code>) we need to use some functionality from another module, then:
+    <ul>
+      <li>Create an interface in the inner layer and use it there.</li>
+      <li>Create an implementation of the interface in the <code>Anticorruption</code> layer.</li>
+      <li>In that implementation, use the functionality from the outer module.</li>
+    </ul>
+  </li>
+</ul>
+<p>Example of the <code>Anticorruption</code> layer you can find in the <a href="https://github.com/benedya/nestjs-layered-architecture/tree/main/src/Module/Quote/Infrastructure/Anticorruption/User">src/Module/Quote/Infrastructure/Anticorruption/User</a> directory.
+  There we have interaction between the <code>Quote</code> module and the <code>User</code> module.</p>
+<h2 id="example-project">Example Project</h2>
+<p>This template includes a working example demonstrating the layered architecture in action with two modules:</p>
+<ul>
+  <li>
+    <p><strong>User Module</strong> (<code>src/Module/User</code>): Manages user entities with CRUD operations. Includes:</p>
+    <ul>
+      <li>Domain layer with User entity and repository interface</li>
+      <li>Application layer with services (Create, Get, Update, List) and DTOs</li>
+      <li>Infrastructure layer with TypeORM repository implementation</li>
+      <li>User mapper for entity-to-DTO transformations</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Quote Module</strong> (<code>src/Module/Quote</code>): Manages quotes and their posting to external services. Includes:</p>
+    <ul>
+      <li>Domain layer with Quote and QuotePosting entities</li>
+      <li>Application layer with services (Create, Post, List) and DTOs</li>
+      <li>Infrastructure layer with repositories and external service integration (Telegram)</li>
+      <li><strong>Anticorruption layer</strong> demonstrating inter-module communication</li>
+    </ul>
+  </li>
+</ul>
+<h3 id="anticorruption-communication-example">Anticorruption Communication Example</h3>
+<p>The Quote module demonstrates the Anticorruption pattern by communicating with the User module:</p>
+<ul>
+  <li><strong>Interface defined</strong>: <code>UserProviderInterface</code> in <code>Quote/Application/Contract</code></li>
+  <li><strong>Implementation</strong>: <code>UserProvider</code> in <code>Quote/Infrastructure/Anticorruption/User</code></li>
+  <li><strong>Usage</strong>: Quote services use the interface to fetch user data without directly depending on the User module's internals</li>
+</ul>
+<p>Following this approach, the Application layer doesn't depend on other modules directly but communicates with them as external dependencies. This makes module interaction clear and manageable, maintains clean boundaries between modules, and makes them independently testable and easier to maintain.</p>
+<h2 id="development">Development</h2>
+<ul>
+  <li><strong>Start in development mode</strong>: <code>npm run start:dev</code> (inside Docker: <code>docker-compose exec node npm run start:dev</code>)</li>
+  <li><strong>Build</strong>: <code>npm run build</code> (inside Docker: <code>docker-compose exec node npm run build</code>)</li>
+  <li><strong>Run tests</strong>: <code>npm test</code> (inside Docker: <code>docker-compose exec node npm test</code>)</li>
+</ul>
+<h2 id="github-copilot-support">GitHub Copilot Support</h2>
+<p>This project includes <a href="https://github.com/benedya/nestjs-layered-architecture/blob/main/.github/copilot-instructions.md"><code>.github/copilot-instructions.md</code></a> that helps GitHub Copilot understand and follow the layered architecture patterns when generating code. The instructions guide Copilot to:</p>
+<ul>
+  <li>Follow the correct layered architecture structure (Domain → Application → Infrastructure → API Gateway)</li>
+  <li>Properly implement the Repository pattern with interfaces and dependency injection</li>
+  <li>Use the Anticorruption layer for module-to-module communication</li>
+  <li>Apply best practices for DTOs, providers, and use cases</li>
+</ul>
+<p>This ensures that AI-assisted code generation stays consistent with the project's architectural principles.</p>
+<hr>
+<p>Hopefully this example helps you build robust and scalable applications using the power of Clean Architecture. Happy coding! If you have any questions or need assistance, please don&#39;t hesitate to reach out.</p>
+</body>
+</html>

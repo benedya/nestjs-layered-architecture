@@ -1,0 +1,37 @@
+services:
+  node:
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+      target: development
+      args:
+        - TARGETPLATFORM=${DOCKER_PLATFORM:-linux/amd64}
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - ${HOST_PORT}:${APP_PORT}
+    environment:
+      - NODE_ENV
+      - PORT
+      - DATABASE_NAME
+      - DATABASE_USERNAME
+      - DATABASE_PASSWORD
+      - DATABASE_HOST
+      - DATABASE_PORT
+  db:
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    image: mysql:8.0-oracle
+    environment:
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DATABASE_USERNAME}
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD}
+    volumes:
+      - database:/var/lib/mysql
+    ports:
+      - ${LOCAL_DATABASE_PORT}:3306
+
+volumes:
+  database:
+    driver: local
