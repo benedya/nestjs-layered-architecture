@@ -403,4 +403,3 @@ deploy.zip
 .build
 .serverless
 package-lock.json
-src/Database/Migration
