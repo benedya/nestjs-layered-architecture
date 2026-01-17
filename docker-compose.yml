@@ -13,7 +13,7 @@ services:
       - ${HOST_PORT}:${APP_PORT}
     environment:
       - NODE_ENV
-      - PORT
+      - APP_PORT
       - DATABASE_NAME
       - DATABASE_USERNAME
       - DATABASE_PASSWORD
